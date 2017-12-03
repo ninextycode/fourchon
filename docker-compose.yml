@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+    neo4j_db:
+        image: neo4j:3.2.5
+        expose:
+            - "7474"
+        ports:
+            - "7474:7474"
+            - "7687:7687"
+
+        volumes:
+            - $HOME/neo4j/data:/data
+    4chon:
+        image: 4chon
+        build: ./
+        depends_on:
+            - neo4j_db
+        restart: on-failure
+        command: neo4j_db neo4j pass
